@@ -55,10 +55,10 @@ This avoids any automatic download issues.
 | ukb-d-M13_RHEUMA.vcf.gz     | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/Q6amxwXG18U4bB9sRkA5H3BdPSxPZBJVQ2WhsEW2Hr7G7tZ4iD3-U2XdE5mRsdq-/n/ieup4/b/igd/o/ukb-d-M13_RHEUMA/ukb-d-M13_RHEUMA.vcf.gz |
 | ukb-d-RHEUMA_NOS.vcf.gz     | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/7MaNoSLBPtoh7Rgg4DavfLrrTyONRIfE-jyc9qSdKWAx1k8r7QbJpLL0FGgRVnYm/n/ieup4/b/igd/o/ukb-d-RHEUMA_NOS/ukb-d-RHEUMA_NOS.vcf.gz |
 
-### Motrix Batch Download (all 29 files)
+### Motrix Batch Download (all 25 files)
 Copy & paste the entire block below into Motrix → New Task → Batch:
 
-https://stringdb-static.org/download/protein.aliases.v11.5/9606.protein.aliases.v11.5.txt.gz | 9606.protein.aliases.v11.5.txt.gz
+https://stringdb-static.org/download/protein.aliases.v11.5/9606.protein.aliases.v11.5.txt.gz 9606.protein.aliases.v11.5.txt.gz
 https://stringdb-downloads.org/download/protein.aliases.v12.0/9606.protein.aliases.v12.0.txt.gz 9606.protein.aliases.v12.0.txt.gz
 https://stringdb-static.org/download/protein.info.v11.5/9606.protein.info.v11.5.txt.gz 9606.protein.info.v11.5.txt.gz
 https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz 9606.protein.info.v12.0.txt.gz
