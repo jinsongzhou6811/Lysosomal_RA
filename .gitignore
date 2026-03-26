@@ -1,0 +1,43 @@
+# ==================== R / RStudio default ignores ====================
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+*-Ex.R
+/*.tar.gz
+/*.Rcheck/
+.Rproj.user/
+vignettes/*.html
+vignettes/*.pdf
+.httr-oauth
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron
+docs/
+po/*~
+rsconnect/
+
+# ==================== Project-specific ignores (Critical!) ====================
+# 1. Large raw data files (54 GB+ - do not upload)
+data/*.cel.gz
+data/*.vcf.gz
+data/*.h5
+data/*.tar
+data/GSE*_RAW/
+data/GSE159117_RAW/
+data/GSE55235_RAW/
+data/GSE55457_RAW/
+data/GSE55584_RAW/
+# 2. Large intermediate and temporary files
+data/Exposure_IDs/*.csv
+*.log
+temp/
+*.tmp
+
+# 3.  Other system files
+.DS_Store
+Thumbs.db
+

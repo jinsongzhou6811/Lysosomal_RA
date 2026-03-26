@@ -1,0 +1,3 @@
+"Gencode Id","Gene Symbol","Variant Id","SNP Id","Phenotype Id","Intron Id","P-Value","NES","Tissue"
+"ENSG00000123416.15","TUBA1B","chr12_50074258_C_T_b38","rs145561284","chr12:49129390:49129500:clu_11320_-:ENSG00000123416.15","49129390:49129500:clu_11320_-","5.7e-8","-1.4","Cells - Cultured fibroblasts"
+"ENSG00000123416.15","TUBA1B","chr12_50086479_T_TTGGTGGTGGTGGTGGTGGTGG_b38","","chr12:49129390:49129500:clu_11320_-:ENSG00000123416.15","49129390:49129500:clu_11320_-","0.00031","-0.45","Cells - Cultured fibroblasts"
