@@ -35,7 +35,7 @@ This avoids any automatic download issues.
 | hg38_screen_v10_clust.regions_vs_motifs.rankings.feather | https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/screen/mc_v10_clust/region_based/hg38_screen_v10_clust.regions_vs_motifs.rankings.feather |
 | hg38_screen_v10_clust.regions_vs_motifs.scores.feather  | https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg38/screen/mc_v10_clust/region_based/hg38_screen_v10_clust.regions_vs_motifs.scores.feather |
 
-### 3. GWAS Summary Statistics (14 files) – NEW – save to `data/GWAS/`
+### 3. GWAS Summary Statistics (10 files) – NEW – save to `data/GWAS/`
 **Important**: First create the folder `data/GWAS/`.
 
 | Filename (save as)          | Direct Download Link |
@@ -48,12 +48,8 @@ This avoids any automatic download issues.
 | ieu-a-832.vcf.gz            | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/FGlx_42Fke4FfxmVbi4AsXCOD-10Ipg4kogZTgzLK20Ztbyc2-IS5wDCyWZHXikA/n/ieup4/b/igd/o/ieu-a-832/ieu-a-832.vcf.gz |
 | ieu-a-833.vcf.gz            | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/fTLiQyVfkaGwJZeM39XBagV2SkGB-LoTdHsa9D1_YJZAhz-2DpZaJh0eab2CZEy7/n/ieup4/b/igd/o/ieu-a-833/ieu-a-833.vcf.gz |
 | ieu-a-834.vcf.gz            | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/AL-ZbfB8F6y3jFVGxW2FFGR_EIP2TK4O82U1ObhA_ikKQCOg0S7WD4b4QHkIp95J/n/ieup4/b/igd/o/ieu-a-834/ieu-a-834.vcf.gz |
-| ukb-a-105.vcf.gz            | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/hLQdd9PJmFOYyc1C_swxK-z2-ByBrrcjBUVyqM0nagh-ttPka5StED6Lzmhq24M6/n/ieup4/b/igd/o/ukb-a-105/ukb-a-105.vcf.gz |
-| ukb-b-11874.vcf.gz          | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/y8yKaj9rZZV_jZNgCbYvADl5XjVSy13HUJUaUPMCAwvTkygfxWdbdypRHStVUpE9/n/ieup4/b/igd/o/ukb-b-11874/ukb-b-11874.vcf.gz |
-| ukb-b-9125.vcf.gz           | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/YeoUc0yjpJ7yS-b1RgncK9fCMMb9BPDT-pnUO8I2at_s35UD2fQIFWEfTDOCMOzc/n/ieup4/b/igd/o/ukb-b-9125/ukb-b-9125.vcf.gz |
 | ukb-d-M06.vcf.gz            | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/Uz5KJWcGORVz78rEB18VB8NvAVmQHYeXTVrdWR3hq_xATRfT8LgkNB1nMY2juGhw/n/ieup4/b/igd/o/ukb-d-M06/ukb-d-M06.vcf.gz |
 | ukb-d-M13_RHEUMA.vcf.gz     | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/Q6amxwXG18U4bB9sRkA5H3BdPSxPZBJVQ2WhsEW2Hr7G7tZ4iD3-U2XdE5mRsdq-/n/ieup4/b/igd/o/ukb-d-M13_RHEUMA/ukb-d-M13_RHEUMA.vcf.gz |
-| ukb-d-RHEUMA_NOS.vcf.gz     | https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/7MaNoSLBPtoh7Rgg4DavfLrrTyONRIfE-jyc9qSdKWAx1k8r7QbJpLL0FGgRVnYm/n/ieup4/b/igd/o/ukb-d-RHEUMA_NOS/ukb-d-RHEUMA_NOS.vcf.gz |
 
 ### Motrix Batch Download (all 25 files)
 Copy & paste the entire block below into Motrix → New Task → Batch:
@@ -81,12 +77,9 @@ https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/_zzfSjaW9UuAvw4SQ
 https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/FGlx_42Fke4FfxmVbi4AsXCOD-10Ipg4kogZTgzLK20Ztbyc2-IS5wDCyWZHXikA/n/ieup4/b/igd/o/ieu-a-832/ieu-a-832.vcf.gz ieu-a-832.vcf.gz
 https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/fTLiQyVfkaGwJZeM39XBagV2SkGB-LoTdHsa9D1_YJZAhz-2DpZaJh0eab2CZEy7/n/ieup4/b/igd/o/ieu-a-833/ieu-a-833.vcf.gz ieu-a-833.vcf.gz
 https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/AL-ZbfB8F6y3jFVGxW2FFGR_EIP2TK4O82U1ObhA_ikKQCOg0S7WD4b4QHkIp95J/n/ieup4/b/igd/o/ieu-a-834/ieu-a-834.vcf.gz ieu-a-834.vcf.gz
-https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/hLQdd9PJmFOYyc1C_swxK-z2-ByBrrcjBUVyqM0nagh-ttPka5StED6Lzmhq24M6/n/ieup4/b/igd/o/ukb-a-105/ukb-a-105.vcf.gz ukb-a-105.vcf.gz
-https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/y8yKaj9rZZV_jZNgCbYvADl5XjVSy13HUJUaUPMCAwvTkygfxWdbdypRHStVUpE9/n/ieup4/b/igd/o/ukb-b-11874/ukb-b-11874.vcf.gz ukb-b-11874.vcf.gz
-https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/YeoUc0yjpJ7yS-b1RgncK9fCMMb9BPDT-pnUO8I2at_s35UD2fQIFWEfTDOCMOzc/n/ieup4/b/igd/o/ukb-b-9125/ukb-b-9125.vcf.gz ukb-b-9125.vcf.gz
 https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/Uz5KJWcGORVz78rEB18VB8NvAVmQHYeXTVrdWR3hq_xATRfT8LgkNB1nMY2juGhw/n/ieup4/b/igd/o/ukb-d-M06/ukb-d-M06.vcf.gz ukb-d-M06.vcf.gz
 https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/Q6amxwXG18U4bB9sRkA5H3BdPSxPZBJVQ2WhsEW2Hr7G7tZ4iD3-U2XdE5mRsdq-/n/ieup4/b/igd/o/ukb-d-M13_RHEUMA/ukb-d-M13_RHEUMA.vcf.gz ukb-d-M13_RHEUMA.vcf.gz
-https://ieup4.objectstorage.uk-london-1.oci.customer-oci.com/p/7MaNoSLBPtoh7Rgg4DavfLrrTyONRIfE-jyc9qSdKWAx1k8r7QbJpLL0FGgRVnYm/n/ieup4/b/igd/o/ukb-d-RHEUMA_NOS/ukb-d-RHEUMA_NOS.vcf.gz ukb-d-RHEUMA_NOS.vcf.gz
+
 
 
 **Extraction tip**: Use 7-Zip (Windows) or built-in macOS Archive Utility. Extract each .tar file **directly** into its corresponding folder (e.g. extract `GSE159117_RAW.tar` → `data/GSE159117_RAW/`).
