@@ -58,7 +58,7 @@ This avoids any automatic download issues.
 ### Motrix Batch Download (all 29 files)
 Copy & paste the entire block below into Motrix → New Task → Batch:
 
-https://stringdb-static.org/download/protein.aliases.v11.5/9606.protein.aliases.v11.5.txt.gz 9606.protein.aliases.v11.5.txt.gz
+https://stringdb-static.org/download/protein.aliases.v11.5/9606.protein.aliases.v11.5.txt.gz | 9606.protein.aliases.v11.5.txt.gz
 https://stringdb-downloads.org/download/protein.aliases.v12.0/9606.protein.aliases.v12.0.txt.gz 9606.protein.aliases.v12.0.txt.gz
 https://stringdb-static.org/download/protein.info.v11.5/9606.protein.info.v11.5.txt.gz 9606.protein.info.v11.5.txt.gz
 https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz 9606.protein.info.v12.0.txt.gz
