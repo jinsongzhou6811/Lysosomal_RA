@@ -590,51 +590,97 @@ write_log(sprintf("Saved post-batch PCA plot to %s (.pdf/_300.png/_600.tiff)", p
 # ==========================================================
 # [FIX-3] PERMANOVA batch effect quantification
 # Replaces simple t.test with rigorous R² decomposition
+# [FIX-3b] Added defensive NA checks and sample alignment
+#          to prevent silent NA propagation into adonis2()
 # ==========================================================
 write_log("Running PERMANOVA to quantify batch effects (pre/post ComBat)")
 
-# Build metadata aligned to PCA samples
-meta_pre_ordered <- data.frame(
-  batch   = factor(sample_info$GEO[match(rownames(pca_pre$x), sample_info$Sample)]),
-  disease = factor(sample_info$Group[match(rownames(pca_pre$x), sample_info$Sample)])
-)
-meta_post_ordered <- data.frame(
-  batch   = factor(sample_info$GEO[match(rownames(pca$x), sample_info$Sample)]),
-  disease = factor(sample_info$Group[match(rownames(pca$x), sample_info$Sample)])
-)
+# --- Helper: build metadata with NA-safe sample alignment ---
+build_permanova_meta <- function(pca_obj, sinfo, label) {
+  pca_samples <- rownames(pca_obj$x)
+  idx <- match(pca_samples, sinfo$Sample)
+  n_na <- sum(is.na(idx))
+  if (n_na > 0) {
+    write_log(sprintf("WARNING [%s]: %d/%d PCA samples not found in sample_info — dropping them",
+                      label, n_na, length(pca_samples)))
+    keep <- !is.na(idx)
+    pca_samples <- pca_samples[keep]
+    idx <- idx[keep]
+  }
+  meta <- data.frame(
+    batch   = factor(sinfo$GEO[idx]),
+    disease = factor(sinfo$Group[idx])
+  )
+  rownames(meta) <- pca_samples
+  write_log(sprintf("[%s] metadata: n=%d, batch levels=%s, disease levels=%s",
+                    label, nrow(meta),
+                    paste(levels(meta$batch), collapse="/"),
+                    paste(levels(meta$disease), collapse="/")))
+  stopifnot(!any(is.na(meta$batch)), !any(is.na(meta$disease)))
+  list(meta = meta, samples = pca_samples)
+}
 
+# Build metadata — pre-ComBat PCA
+pre_info  <- build_permanova_meta(pca_pre, sample_info, "Pre-ComBat")
+# Build metadata — post-ComBat PCA
+post_info <- build_permanova_meta(pca,     sample_info, "Post-ComBat")
+
+# Compute distance matrices on aligned samples
 n_pc <- min(10, ncol(pca_pre$x), ncol(pca$x))
-dist_pre  <- dist(pca_pre$x[, 1:n_pc])
-dist_post <- dist(pca$x[,     1:n_pc])
+dist_pre  <- dist(pca_pre$x[pre_info$samples,  1:n_pc])
+dist_post <- dist(pca$x[post_info$samples,      1:n_pc])
 
+# Run PERMANOVA
 set.seed(123)
-perm_pre  <- adonis2(dist_pre  ~ disease + batch, data = meta_pre_ordered,  permutations = 999)
-perm_post <- adonis2(dist_post ~ disease + batch, data = meta_post_ordered, permutations = 999)
+perm_pre  <- adonis2(dist_pre  ~ disease + batch, data = pre_info$meta,  permutations = 999, by = "terms")
+perm_post <- adonis2(dist_post ~ disease + batch, data = post_info$meta, permutations = 999, by = "terms")
 
+# Log the full adonis2 output for audit trail
+write_log("=== Full adonis2 output (Pre-ComBat) ===")
+write_log(paste(capture.output(print(perm_pre)), collapse = "\n"))
+write_log("=== Full adonis2 output (Post-ComBat) ===")
+write_log(paste(capture.output(print(perm_post)), collapse = "\n"))
+
+# Extract R² and P values
 batch_R2_pre    <- perm_pre["batch",   "R2"]
 batch_R2_post   <- perm_post["batch",  "R2"]
-disease_R2_pre  <- perm_pre["disease",  "R2"]
-disease_R2_post <- perm_post["disease", "R2"]
+disease_R2_pre  <- perm_pre["disease", "R2"]
+disease_R2_post <- perm_post["disease","R2"]
 
-write_log(sprintf("PERMANOVA Pre-ComBat:  batch R2=%.3f (p=%.3f), disease R2=%.3f (p=%.3f)",
-                  batch_R2_pre,   perm_pre["batch",  "Pr(>F)"],
-                  disease_R2_pre, perm_pre["disease","Pr(>F)"]))
-write_log(sprintf("PERMANOVA Post-ComBat: batch R2=%.3f (p=%.3f), disease R2=%.3f (p=%.3f)",
-                  batch_R2_post,   perm_post["batch",  "Pr(>F)"],
-                  disease_R2_post, perm_post["disease","Pr(>F)"]))
+batch_P_pre     <- perm_pre["batch",   "Pr(>F)"]
+batch_P_post    <- perm_post["batch",  "Pr(>F)"]
+disease_P_pre   <- perm_pre["disease", "Pr(>F)"]
+disease_P_post  <- perm_post["disease","Pr(>F)"]
+
+# Validate: if any value is still NA, something is fundamentally wrong
+if (any(is.na(c(batch_R2_pre, batch_R2_post, batch_P_pre, batch_P_post)))) {
+  write_log("ERROR: PERMANOVA returned NA values — check adonis2 output above")
+  write_log(sprintf("  batch_R2_pre=%s, batch_P_pre=%s, batch_R2_post=%s, batch_P_post=%s",
+                    batch_R2_pre, batch_P_pre, batch_R2_post, batch_P_post))
+}
+
+write_log(sprintf("PERMANOVA Pre-ComBat:  batch R2=%.3f (P=%.3f), disease R2=%.3f (P=%.3f)",
+                  batch_R2_pre,   batch_P_pre,
+                  disease_R2_pre, disease_P_pre))
+write_log(sprintf("PERMANOVA Post-ComBat: batch R2=%.3f (P=%.3f), disease R2=%.3f (P=%.3f)",
+                  batch_R2_post,   batch_P_post,
+                  disease_R2_post, disease_P_post))
 
 permanova_summary <- data.frame(
   Stage        = c("Pre-ComBat", "Post-ComBat"),
   Batch_R2     = c(batch_R2_pre,   batch_R2_post),
   Disease_R2   = c(disease_R2_pre, disease_R2_post),
-  Batch_Pval   = c(perm_pre["batch",  "Pr(>F)"], perm_post["batch",  "Pr(>F)"]),
-  Disease_Pval = c(perm_pre["disease","Pr(>F)"], perm_post["disease","Pr(>F)"])
+  Batch_Pval   = c(batch_P_pre,    batch_P_post),
+  Disease_Pval = c(disease_P_pre,  disease_P_post)
 )
 write.csv(permanova_summary,
           file.path(base_dir, "results", "batch_correction_PERMANOVA.csv"),
           row.names = FALSE)
-write_log(sprintf("Batch R2 change: %.1f%% to %.1f%% after ComBat; disease R2 post: %.1f%%",
-                  batch_R2_pre * 100, batch_R2_post * 100, disease_R2_post * 100))
+write_log("PERMANOVA summary saved to batch_correction_PERMANOVA.csv")
+write_log(sprintf("Batch R2 change: %.1f%% (P=%.3f) to %.1f%% (P=%.3f) after ComBat; disease R2 post: %.1f%%",
+                  batch_R2_pre * 100, batch_P_pre,
+                  batch_R2_post * 100, batch_P_post,
+                  disease_R2_post * 100))
 
 # ==========================================================
 # [FIX-4] Over-correction check: FC direction agreement
@@ -680,9 +726,10 @@ report_file <- file.path(base_dir, "reports", paste0("geo_analysis_report_", log
 report_con  <- file(report_file, open = "w")
 writeLines(sprintf("Total RA samples: %d, Total non-RA samples: %d", total_ra, total_non_ra), report_con)
 writeLines(sprintf("Filtered genes: %d", filtered_genes), report_con)
-writeLines(sprintf("Batch R2 (pre-ComBat):  %.1f%%", batch_R2_pre  * 100), report_con)
-writeLines(sprintf("Batch R2 (post-ComBat): %.1f%%", batch_R2_post * 100), report_con)
-writeLines(sprintf("Disease R2 (post-ComBat): %.1f%%", disease_R2_post * 100), report_con)
+writeLines(sprintf("Batch R2 (pre-ComBat):  %.1f%% (P=%.3f)", batch_R2_pre  * 100, batch_P_pre), report_con)
+writeLines(sprintf("Batch R2 (post-ComBat): %.1f%% (P=%.3f)", batch_R2_post * 100, batch_P_post), report_con)
+writeLines(sprintf("Disease R2 (pre-ComBat):  %.1f%% (P=%.3f)", disease_R2_pre  * 100, disease_P_pre), report_con)
+writeLines(sprintf("Disease R2 (post-ComBat): %.1f%% (P=%.3f)", disease_R2_post * 100, disease_P_post), report_con)
 writeLines("PCA result: Batch correction separates RA and non-RA groups.", report_con)
 close(report_con)
 write_log(sprintf("Saved analysis report to %s", report_file))
